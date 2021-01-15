@@ -27,6 +27,7 @@
 
 .friends_container {
   display: flex;
+  flex-wrap: wrap;
   position: relative;
   width: 75%;
   height: 100%;
@@ -38,13 +39,16 @@
   width: 220px;
   height: 300px;
   text-align: center;
-  background-color: rgb(114, 189, 250);
-  box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, 0.2);
 }
 
 div.friend_card.female {
   background-color: rgb(238, 150, 168);
   box-shadow: 12px 12px 2px 1px rgb(252, 85, 119);
+}
+
+div.friend_card.male {
+  background-color: rgb(114, 189, 250);
+  box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, 0.2);
 }
 
 .name {
