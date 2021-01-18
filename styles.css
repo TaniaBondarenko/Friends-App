@@ -85,3 +85,15 @@ div.friend_card.male {
   font-weight: bold;
   margin-top: 5px;
 }
+
+.ascendent_by_name {
+  background: url("images/a-z.png") center center no-repeat;
+  height: 40px;
+  width: 60px;
+}
+
+.descendent_by_name {
+  background: url("images/z-a.png") center center no-repeat;
+  height: 40px;
+  width: 60px;
+}

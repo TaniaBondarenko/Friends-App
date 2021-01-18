@@ -12,29 +12,31 @@
 <div class="sort">
     <div class="byName">
         <div class="text">SORT BY NAME</div> 
-        <button class="ascendent" type="button">Image</button>
-        <button class="decscendent" type="button">Image</button>
+        <button class="ascendent_by_name" type="button"></button>
+        <button class="descendent_by_name" type="button"></button>
     </div>
 </div>
 <div class="sort">
     <div class="byAge">
         <div class="text">SORT BY AGE</div>
-        <button class="ascendent" type="button">Image</button>
-        <button class="decscendent" type="button">Image</button>
+        <button class="ascendent_by_age" type="button">Image</button>
+        <button class="descendent_by_age" type="button">Image</button>
     </div>
 </div>
-<div class="filter">
-<input type="radio" id="male" value="male">
-<label for="male">Male</label><br>
-<input type="radio" id="female" value="female">
-<label for="female">Female</label><br>
-<input type="radio" id="other" value="other">
-<label for="other">All</label>
-</div>
-<div class="finder" >
+
+<form class="filter">
+<input type="radio" name="filter" id="male" value="male"> Male
+
+<input type="radio" name="filter" id="female" value="female">Female
+
+<input type="radio" name="filter" id="all" value="all" checked>All
+
+</form>
+
+<form class="finder" >
 <input type="input">
 <div class="text">Search</div>
-        </div>
+</form>
         </div>
         <div class="friends_container">
 
