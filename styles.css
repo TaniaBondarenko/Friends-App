@@ -94,14 +94,38 @@ div.friend_card > div.name.male {
   margin-top: 5px;
 }
 
+button {
+  border-radius: 20%;
+  outline: none;
+}
+
+button:hover,
+button:focus,
+button:active {
+  cursor: pointer;
+  background-color: cadetblue;
+}
+
 .ascendent_by_name {
   background: url("images/a-z.png") center center no-repeat;
   height: 40px;
-  width: 60px;
+  width: 50px;
 }
 
 .descendent_by_name {
   background: url("images/z-a.png") center center no-repeat;
   height: 40px;
-  width: 60px;
+  width: 50px;
+}
+
+.ascendent_by_age {
+  background: url("images/sortUp.png") center center no-repeat;
+  height: 40px;
+  width: 50px;
+}
+
+.descendent_by_age {
+  background: url("images/sortDown.png") center center no-repeat;
+  height: 40px;
+  width: 50px;
 }
