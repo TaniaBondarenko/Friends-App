@@ -15,7 +15,6 @@
   position: relative;
   width: 25%;
   height: 100%;
-  border-right: 3px solid rgb(5, 5, 102);
 }
 
 .sort,
@@ -41,14 +40,16 @@
   text-align: center;
 }
 
-div.friend_card.female {
+div.friend_card > div.info_block.female,
+div.friend_card > div.name.female {
   background-color: rgb(238, 150, 168);
-  box-shadow: 12px 12px 2px 1px rgb(252, 85, 119);
+  /*box-shadow: 12px 12px 2px 1px rgb(252, 85, 119);*/
 }
 
-div.friend_card.male {
+div.friend_card > div.info_block.male,
+div.friend_card > div.name.male {
   background-color: rgb(114, 189, 250);
-  box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, 0.2);
+  /* box-shadow: 12px 12px 2px 1px rgba(0, 0, 255, 0.2);*/
 }
 
 .name {
@@ -68,16 +69,23 @@ div.friend_card.male {
 }
 
 .info_block {
-  padding-bottom: 5px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 100px;
 }
 
-.contacts {
+.email {
   font-size: 18px;
+}
+
+.age {
+  font-weight: bolder;
 }
 
 .place {
   font-weight: bold;
-  font-size: 20px;
+  font-size: 19px;
 }
 
 .gender {
