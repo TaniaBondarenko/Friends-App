@@ -1,4 +1,4 @@
-const numOfFriends=20;
+const numOfFriends=24;
 const urlInit = `https://randomuser.me/api/?results=${numOfFriends}`;
 const friendsContainer = document.querySelector(".friends_container");
 let friendsData;
@@ -7,10 +7,9 @@ let isFiltered = false;
 let justMale;
 let justFemale;
 
-
-function initStateofFrContainer() {
+function makeContainerEmpty() {
         let innerText = " "; 
-        friendsContainer.innerHTML=innerText.replace(innerText," ");
+        friendsContainer.innerHTML = innerText.replace(innerText, " ");    
 }
 
 function fetchFriend() {
@@ -23,35 +22,45 @@ function fetchFriend() {
                 })
                 .then(() => addFriends(friendsData))
                 .catch(err => {
-                        console.log("Oops... Something went wrong.\n Reload")
+                        refreshPage();
                 });
-       
-        return friendsData;
-
 };
 
+function refreshPage() {
+        const wholePage = document.querySelector("body");
+        wholePage.setAttribute("class", "refresh");
+        wholePage.innerHTML = `<div>Ops...Something went wrong.</div>
+        <div>Refresh the page to start finding friends</div>
+        <button class="refresh_button">Click to refresh</button>` ;
+        document.querySelector(".refresh_button").addEventListener("click", ()=>
+                document.location.reload());
+}
+
 async function addFriends(arr) {
-        let fragment = document.createDocumentFragment();
+      try  {let fragment = document.createDocumentFragment();
         await arr.forEach(friend => {
                 let friendCard = document.createElement("div");
                friendCard.setAttribute("class", "friend_card");
-                friendCard.innerHTML = `<div class="name ${friend.gender}">${(`${friend.name.first} ${friend.name.last}`).toUpperCase()}</div>
+                friendCard.innerHTML = `<div class="card_wrapper ${friend.gender}"><div class="name ">${`${friend.name.first} ${friend.name.last}`}</div>
                                 <div class="photo"><img src="${friend.picture.large}"></div>
-                                <div class="info_block ${friend.gender}">
+                                <div class="info_block">
                                 <div class="age">Age ${friend.dob.age}</div>
                                 <div class="place">${friend.location.city}</div>
-                                <div class="email"><a href="mailto:${friend.mail}">${friend.email}</a></div><hr>
+                                <div class="email"><a href="mailto:${friend.mail}" class="email_link">${friend.email}</a></div>
                                 <div class="gender">${friend.gender}</div>
-                                </div>
+                                </div></div>
                                 `;
                 fragment.appendChild(friendCard);       
         });
-        friendsContainer.appendChild(fragment);
+              friendsContainer.appendChild(fragment);
+      } catch {
+              refreshPage();
+      }
 };
 
-document.querySelector(".sidebar").addEventListener("click", sortAndFilter);
+document.querySelector(".sidebar").addEventListener("click", sortFriends);
 
-function sortAndFilter({ target }) {
+function sortFriends({ target }) {
         checkCorrectArray();
         switch (target.className||target.id) {
                 case "ascendent_by_name":
@@ -76,7 +85,7 @@ function sortAndFilter({ target }) {
 }
 
 function letFilter() {
-        initStateofFrContainer();
+        makeContainerEmpty();
         if (document.getElementById("male").checked) {
                 justMale = friendsData.filter(el => el.gender === "male");
                 addFriends(justMale);
@@ -92,7 +101,7 @@ function letFilter() {
 }
 
 function redrawFriendsContainer() {
-        initStateofFrContainer();
+        makeContainerEmpty();
         addFriends(arrForFilter);
 }
  
@@ -117,10 +126,8 @@ function makeSearch() {
                         elem.name.first.toLowerCase().startsWith(searchValue)
                 );   
         })
-        initStateofFrContainer();
+        makeContainerEmpty();
         addFriends(filteredStr);
 }
 
 window.addEventListener("load", fetchFriend);
-
-
