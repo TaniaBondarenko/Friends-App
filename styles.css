@@ -5,6 +5,7 @@
 
 html {
   background: url("images/woodWorldSmall.jpg");
+  width: 100%;
 }
 
 .refresh {
