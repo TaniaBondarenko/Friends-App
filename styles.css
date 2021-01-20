@@ -4,7 +4,7 @@
 }
 
 html {
-  background: url("/images/woodWorldSmall.jpg");
+  background: url("images/woodWorldSmall.jpg");
 }
 
 .refresh {
@@ -98,12 +98,12 @@ html {
 }
 
 .card_wrapper.female {
-  background: url("/images/pink.jpg") center center no-repeat;
+  background: url("images/pink.jpg") center center no-repeat;
   box-shadow: 8px 8px 5px 1px rgb(61, 57, 58);
 }
 
 .card_wrapper.male {
-  background: url("/images/blue.jpg") center center no-repeat;
+  background: url("images/blue.jpg") center center no-repeat;
   box-shadow: 8px 8px 5px 1px rgb(61, 57, 58);
 }
 
@@ -181,7 +181,7 @@ button.refresh_button {
 }
 
 .ascendent_by_name {
-  background: url("/images/a-z.png") center center no-repeat;
+  background: url("images/a-z.png") center center no-repeat;
   background-color: #998978;
   height: 40px;
   width: 50px;
