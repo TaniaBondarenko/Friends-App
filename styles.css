@@ -26,6 +26,7 @@ html {
   font-size: 50px;
   text-align: left;
   color: cornsilk;
+  max-width: 135px;
 }
 
 .main {
@@ -211,4 +212,18 @@ button.refresh_button {
   background-color: #998978;
   height: 40px;
   width: 50px;
+}
+
+@media screen and (min-width: 300px) and (max-width: 449px) {
+  .slogan,
+  .refresh {
+    font-size: 30px;
+  }
+}
+
+@media screen and (min-width: 450px) and (max-width: 600px) {
+  .slogan,
+  .refresh {
+    font-size: 35x;
+  }
 }
