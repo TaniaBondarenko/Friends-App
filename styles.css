@@ -10,19 +10,17 @@ html {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  font-family: "Courgette", cursive;
+  letter-spacing: 0.05em;
 }
 
 .refresh {
   font-size: 50px;
-  font-family: "Courgette", cursive;
-  letter-spacing: 0.05em;
   color: cornsilk;
   text-align: center;
 }
 
 .slogan {
-  font-family: "Courgette", cursive;
-  letter-spacing: 0.05em;
   font-size: 40px;
   text-align: left;
   color: cornsilk;
@@ -51,21 +49,15 @@ html {
 .filter {
   display: block;
   width: 100%;
-  font-family: "Courgette", cursive;
-  letter-spacing: 0.05em;
   margin-bottom: 10px;
 }
 
 .search {
-  background: transparent;
   cursor: text;
-  color: cornsilk;
-  background: transparent;
-  border: 1px solid cornsilk;
+  color: rgb(85, 84, 84);
+  border: 1px solid rgb(106, 83, 63);
   border-radius: 3px;
   width: 150px;
-  font-family: "Courgette", cursive;
-  letter-spacing: 0.05em;
   font-weight: 200;
 }
 
@@ -75,8 +67,6 @@ html {
 
 .search_wrap {
   overflow: hidden;
-  font-family: "Courgette", cursive;
-  letter-spacing: 0.05em;
 }
 
 .friends_container {
@@ -92,7 +82,6 @@ html {
 .card_wrapper {
   position: relative;
   border: none;
-  width: 280px;
   height: 300px;
   text-align: center;
   margin: 10px 10px 10px 10px;
@@ -113,12 +102,17 @@ html {
   box-shadow: 8px 8px 5px 1px rgb(61, 57, 58);
 }
 
+.info_block,
+.photo,
+.name,
+.friend_card,
+.card_wrapper {
+  width: 280px;
+}
+
 .name {
-  font-family: "Courgette", cursive;
-  letter-spacing: 0.05em;
   font-size: 20px;
   font-weight: bold;
-  width: 280px;
   height: 50px;
   align-content: center;
   padding-top: 10px;
@@ -127,17 +121,13 @@ html {
 
 .photo {
   padding-bottom: -50px;
-  width: 280px;
   height: 140px;
 }
 
 .info_block {
-  width: 280px;
   overflow: hidden;
   text-overflow: ellipsis;
   height: 100px;
-  font-family: "Courgette", cursive;
-  letter-spacing: 0.05em;
   overflow: hidden;
 }
 
@@ -174,7 +164,7 @@ button:hover,
 button:focus,
 button:active {
   cursor: pointer;
-  background-color: rgb(106, 83, 63);
+  background-color: #998978;
 }
 button.refresh_button {
   border-radius: 5%;
@@ -186,47 +176,35 @@ button.refresh_button {
   font-weight: lighter;
 }
 
-.ascendent_by_name {
-  background: url("images/a-z.png") center center no-repeat;
-  background-color: #998978;
+.ascendent_by_age,
+.ascendent_by_name,
+.descendent_by_name,
+.descendent_by_age {
   height: 40px;
   width: 50px;
+}
+
+.ascendent_by_name {
+  background: url("images/a-z.png") center center no-repeat;
 }
 
 .descendent_by_name {
   background: url("images/z-a.png") center center no-repeat;
-  background-color: #998978;
-  height: 40px;
-  width: 50px;
 }
 
 .ascendent_by_age {
   background: url("images/1-9.png") center center no-repeat;
-  background-color: #998978;
-  height: 40px;
-  width: 50px;
 }
 
 .descendent_by_age {
   background: url("images/9-1.png") center center no-repeat;
-  background-color: #998978;
-  height: 40px;
-  width: 50px;
 }
 
 @media screen and (min-width: 320px) and (max-width: 480px) {
-  .refresh {
-    font-size: 20px;
-  }
-
+  .refresh,
   .slogan {
     font-size: 19px;
     letter-spacing: 0em;
-  }
-
-  .sidebar {
-    padding-left: 4px;
-    padding-top: 18px;
   }
 
   .text,
@@ -252,23 +230,24 @@ button.refresh_button {
   }
 
   .friend_card,
-  .card_wrapper {
+  .card_wrapper,
+  .name,
+  .info_block,
+  .photo {
     width: 230px;
+  }
+
+  .friend_card,
+  .card_wrapper {
     height: 280px;
   }
 
   .name {
     font-size: 16px;
-    width: 230px;
     height: 30px;
   }
 
-  .photo {
-    width: 230px;
-  }
-
   .info_block {
-    width: 230px;
     height: 100px;
   }
 
@@ -287,10 +266,7 @@ button.refresh_button {
 }
 
 @media screen and (min-width: 481px) and (max-width: 768px) {
-  .refresh {
-    font-size: 20px;
-  }
-
+  .refresh,
   .slogan {
     font-size: 20px;
     letter-spacing: 0em;
@@ -318,23 +294,24 @@ button.refresh_button {
   }
 
   .friend_card,
-  .card_wrapper {
+  .card_wrapper,
+  .name,
+  .info_block,
+  .photo {
     width: 230px;
+  }
+
+  .friend_card,
+  .card_wrapper {
     height: 280px;
   }
 
   .name {
     font-size: 16px;
-    width: 230px;
     height: 30px;
   }
 
-  .photo {
-    width: 230px;
-  }
-
   .info_block {
-    width: 230px;
     height: 100px;
   }
 
@@ -353,11 +330,8 @@ button.refresh_button {
 }
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
+  .slogan,
   .refresh {
-    font-size: 20px;
-  }
-
-  .slogan {
     font-size: 22px;
     letter-spacing: 0em;
   }
@@ -389,23 +363,24 @@ button.refresh_button {
   }
 
   .friend_card,
-  .card_wrapper {
+  .card_wrapper,
+  .name,
+  .info_block,
+  .photo {
     width: 250px;
+  }
+
+  .friend_card,
+  .card_wrapper {
     height: 300px;
   }
 
   .name {
     font-size: 17px;
-    width: 250px;
     height: 30px;
   }
 
-  .photo {
-    width: 250px;
-  }
-
   .info_block {
-    width: 250px;
     height: 110px;
   }
 
@@ -424,11 +399,8 @@ button.refresh_button {
 }
 
 @media screen and (min-width: 1025px) and (max-width: 1200px) {
+  .slogan,
   .refresh {
-    font-size: 20px;
-  }
-
-  .slogan {
     font-size: 18px;
     letter-spacing: 0em;
   }
@@ -461,36 +433,34 @@ button.refresh_button {
   }
 
   .friend_card,
-  .card_wrapper {
+  .card_wrapper,
+  .name,
+  .info_block,
+  .photo {
     width: 180px;
+  }
+
+  .friend_card,
+  .card_wrapper {
     height: 280px;
   }
 
   .name {
     font-size: 18px;
-    width: 180px;
     height: 30px;
   }
 
-  .photo {
-    width: 180px;
-  }
-
   .info_block {
-    width: 180px;
     height: 100px;
   }
 
   .age,
-  .email {
+  .email,
+  .gender {
     font-size: 14px;
   }
 
   .place {
     font-size: 18px;
-  }
-
-  .gender {
-    font-size: 14px;
   }
 }
