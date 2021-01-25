@@ -1,5 +1,5 @@
-const numOfFriends=6;
-const urlInit = `https://randomuser.me/api/?results=${numOfFriends}`;
+const numOfFriends=20;
+const apiUrl = `https://randomuser.me/api/?results=${numOfFriends}`;
 const friends = document.querySelector(".friends");
 let friendsData;
 let arrForFilter;
@@ -13,13 +13,9 @@ function makeContainerEmpty() {
 }
 
 function fetchFriend() {
-        fetch(urlInit)
+        fetch(apiUrl)
                 .then(response => response.json())
-                .then((data) => {                         
-                        for (i = 0; i < numOfFriends; i++) {
-                                friendsData = data.results;
-                        }
-                })
+                .then((data) => friendsData = data.results)
                 .then(() => addFriends(friendsData))
                 .catch(err => {
                         refreshPage();
@@ -32,13 +28,12 @@ function refreshPage() {
         wholePage.innerHTML = `<div>Ops...Something went wrong.</div>
         <div>Refresh the page to start finding friends</div>
         <button class="refresh_button">Click to refresh</button>` ;
-        document.querySelector(".refresh_button").addEventListener("click", ()=>
-                document.location.reload());
+        document.querySelector(".refresh_button").addEventListener("click", fetchFriend);
 }
 
-async function addFriends(friendsToBeAdded) {
+ function addFriends(friendsToBeAdded) {
       let fragment = document.createDocumentFragment();
-        for await (let friend of friendsToBeAdded) {
+        friendsToBeAdded.forEach(friend=> {
                 let friendCard = document.createElement("div");
                friendCard.setAttribute("class", "friend_card");
                 friendCard.innerHTML = `<div class="card_wrapper ${friend.gender}"><div class="name ">${`${friend.name.first} ${friend.name.last}`}</div>
@@ -51,7 +46,7 @@ async function addFriends(friendsToBeAdded) {
                                 </div></div>
                                 `;
                 fragment.appendChild(friendCard);       
-        };
+        });
               friends.appendChild(fragment);
 
 };
@@ -59,19 +54,23 @@ async function addFriends(friendsToBeAdded) {
 document.querySelector(".sidebar").addEventListener("click", sortFriends);
 
 function sortFriends({ target }) {
-        chooseAppropriateArray();
+        chooseAppropriateFriends();
         switch (target.className||target.id) {
                 case "ascendent_by_name":
                         arrForFilter.sort((a, b) => a.name.first.localeCompare(b.name.first));
+                          redrawfriends(); 
                         break;
                 case "descendent_by_name":
                         arrForFilter.sort((a, b) => b.name.first.localeCompare(a.name.first));
+                          redrawfriends(); 
                         break;
                 case "ascendent_by_age":
                         arrForFilter.sort((a, b) => a.dob.age - (b.dob.age));
+                          redrawfriends(); 
                         break;
                 case "descendent_by_age":
-                        arrForFilter.sort((a, b) => b.dob.age-(a.dob.age));
+                        arrForFilter.sort((a, b) => b.dob.age - (a.dob.age));
+                          redrawfriends(); 
                         break;
                 case "male":
                 case "female":
@@ -79,7 +78,7 @@ function sortFriends({ target }) {
                         letFilter();
                         break;      
         }
-        redrawfriends();    
+         
 }
 
 function letFilter() {
@@ -105,7 +104,7 @@ function redrawfriends() {
  
 document.querySelector(".search").addEventListener("keyup", makeSearch);
 
-function chooseAppropriateArray() {
+function chooseAppropriateFriends() {
         if (isFiltered && document.getElementById("male").checked) {
                 arrForFilter = justMale;
         } if (isFiltered && document.getElementById("female").checked) {
@@ -117,7 +116,7 @@ function chooseAppropriateArray() {
 
 function makeSearch() {      
         const searchValue = document.querySelector(".search").value.toLowerCase();
-        chooseAppropriateArray();
+        chooseAppropriateFriends();
         const filteredStr = arrForFilter.filter((elem) => {
                 return (
                         elem.name.last.toLowerCase().startsWith(searchValue,0) ||
