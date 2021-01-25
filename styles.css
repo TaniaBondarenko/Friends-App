@@ -69,7 +69,7 @@ html {
   overflow: hidden;
 }
 
-.friends_container {
+.friends {
   display: flex;
   flex-wrap: wrap;
   position: relative;
@@ -225,7 +225,7 @@ button.refresh_button {
     font-size: 12px;
   }
 
-  .friends_container {
+  .friends {
     margin-left: 60px;
   }
 
@@ -289,7 +289,7 @@ button.refresh_button {
     font-size: 12px;
   }
 
-  .friends_container {
+  .friends {
     margin-left: 150px;
   }
 
@@ -354,7 +354,7 @@ button.refresh_button {
     font-size: 13px;
   }
 
-  .friends_container {
+  .friends {
     margin-left: 180px;
   }
 
@@ -428,7 +428,7 @@ button.refresh_button {
     font-size: 12px;
   }
 
-  .friends_container {
+  .friends {
     margin-left: 200px;
   }
 

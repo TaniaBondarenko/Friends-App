@@ -1,6 +1,6 @@
-const numOfFriends=24;
+const numOfFriends=6;
 const urlInit = `https://randomuser.me/api/?results=${numOfFriends}`;
-const friendsContainer = document.querySelector(".friends_container");
+const friends = document.querySelector(".friends");
 let friendsData;
 let arrForFilter;
 let isFiltered = false;
@@ -9,7 +9,7 @@ let justFemale;
 
 function makeContainerEmpty() {
         let innerText = " "; 
-        friendsContainer.innerHTML = innerText.replace(innerText, " ");    
+        friends.innerHTML = innerText.replace(innerText, " ");    
 }
 
 function fetchFriend() {
@@ -36,9 +36,9 @@ function refreshPage() {
                 document.location.reload());
 }
 
-async function addFriends(arr) {
+async function addFriends(friendsToBeAdded) {
       let fragment = document.createDocumentFragment();
-        await arr.forEach(friend => {
+        for await (let friend of friendsToBeAdded) {
                 let friendCard = document.createElement("div");
                friendCard.setAttribute("class", "friend_card");
                 friendCard.innerHTML = `<div class="card_wrapper ${friend.gender}"><div class="name ">${`${friend.name.first} ${friend.name.last}`}</div>
@@ -51,15 +51,15 @@ async function addFriends(arr) {
                                 </div></div>
                                 `;
                 fragment.appendChild(friendCard);       
-        });
-              friendsContainer.appendChild(fragment);
+        };
+              friends.appendChild(fragment);
 
 };
 
 document.querySelector(".sidebar").addEventListener("click", sortFriends);
 
 function sortFriends({ target }) {
-        checkCorrectArray();
+        chooseAppropriateArray();
         switch (target.className||target.id) {
                 case "ascendent_by_name":
                         arrForFilter.sort((a, b) => a.name.first.localeCompare(b.name.first));
@@ -79,7 +79,7 @@ function sortFriends({ target }) {
                         letFilter();
                         break;      
         }
-        redrawFriendsContainer();    
+        redrawfriends();    
 }
 
 function letFilter() {
@@ -98,14 +98,14 @@ function letFilter() {
         }
 }
 
-function redrawFriendsContainer() {
+function redrawfriends() {
         makeContainerEmpty();
         addFriends(arrForFilter);
 }
  
 document.querySelector(".search").addEventListener("keyup", makeSearch);
 
-function checkCorrectArray() {
+function chooseAppropriateArray() {
         if (isFiltered && document.getElementById("male").checked) {
                 arrForFilter = justMale;
         } if (isFiltered && document.getElementById("female").checked) {
@@ -117,7 +117,7 @@ function checkCorrectArray() {
 
 function makeSearch() {      
         const searchValue = document.querySelector(".search").value.toLowerCase();
-        checkCorrectArray();
+        chooseAppropriateArray();
         const filteredStr = arrForFilter.filter((elem) => {
                 return (
                         elem.name.last.toLowerCase().startsWith(searchValue,0) ||
