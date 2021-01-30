@@ -1,7 +1,7 @@
 const NUM_OF_FRIENDS = 20;
 const FRIENDS = document.querySelector(".friends");
-let friendsData;
-let arrForFilter;
+let allFriends;
+let friendsForFilter;
 let isFiltered = false;
 let justMale;
 let justFemale;
@@ -14,23 +14,25 @@ function makeContainerEmpty() {
 function fetchFriends() {
   const api_url = `https://randomuser.me/api/?results=${NUM_OF_FRIENDS}`;
   fetch(api_url)
+    .then(handleErrors)
     .then((response) => response.json())
-    .then((data) => (friendsData = data.results))
-    .then(() => addFriends(friendsData))
-    .catch((err) => {
-      refreshPage();
-    });
+    .then((data) => (allFriends = data.results))
+    .then(() => addFriends(allFriends))
+    .catch((error) => showErrorMessage());
 }
 
-function refreshPage() {
+function handleErrors(response) {
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
+  return response;
+}
+
+function showErrorMessage() {
   const wholePage = document.querySelector("body");
   wholePage.setAttribute("class", "refresh");
   wholePage.innerHTML = `<div>Ops...Something went wrong.</div>
-        <div>Refresh the page to start finding friends</div>
-        <button class="refresh_button">Click to refresh</button>`;
-  document
-    .querySelector(".refresh_button")
-    .addEventListener("click", fetchFriends);
+        <div>Refresh the page to start finding friends</div>`;
 }
 
 function addFriends(friendsToBeAdded) {
@@ -62,79 +64,81 @@ document.querySelector(".sidebar").addEventListener("click", sortFriends);
 
 function sortFriends({ target }) {
   chooseAppropriateFriends();
+  console.log(friendsForFilter);
   const nameUp = "ascendent_by_name";
   const nameDown = "descendent_by_name";
   const ageUp = "ascendent_by_age";
   const ageDown = "descendent_by_age";
   switch (target.className || target.id) {
     case nameUp:
-      arrForFilter.sort((a, b) => a.name.first.localeCompare(b.name.first));
+      friendsForFilter.sort((a, b) => a.name.first.localeCompare(b.name.first));
       redrawfriends();
       break;
     case nameDown:
-      arrForFilter.sort((a, b) => b.name.first.localeCompare(a.name.first));
+      friendsForFilter.sort((a, b) => b.name.first.localeCompare(a.name.first));
       redrawfriends();
       break;
     case ageUp:
-      arrForFilter.sort((a, b) => a.dob.age - b.dob.age);
+      friendsForFilter.sort((a, b) => a.dob.age - b.dob.age);
       redrawfriends();
       break;
     case ageDown:
-      arrForFilter.sort((a, b) => b.dob.age - a.dob.age);
+      friendsForFilter.sort((a, b) => b.dob.age - a.dob.age);
       redrawfriends();
-      break;
-    default:
-      doFilter();
       break;
   }
 }
 
-function doFilter() {
+let genderFilter = document.querySelector(".filter");
+genderFilter.addEventListener("click", doFilter);
+
+function doFilter({ target }) {
   makeContainerEmpty();
-  if (document.getElementById("male").checked) {
-    justMale = friendsData.filter((el) => el.gender === "male");
+  console.log(target);
+  if (target.value === "male") {
+    justMale = allFriends.filter((el) => el.gender === "male");
     addFriends(justMale);
     isFiltered = true;
-  } else if (document.getElementById("female").checked) {
-    justFemale = friendsData.filter((el) => el.gender === "female");
+  } else if (target.value === "female") {
+    justFemale = allFriends.filter((el) => el.gender === "female");
     addFriends(justFemale);
     isFiltered = true;
-  } else if (document.getElementById("all").checked) {
-    addFriends(friendsData);
+  } else if (target.value === "all") {
+    addFriends(allFriends);
     isFiltered = false;
   }
 }
 
 function redrawfriends() {
   makeContainerEmpty();
-  addFriends(arrForFilter);
+  addFriends(friendsForFilter);
 }
 
 document.querySelector(".search").addEventListener("keyup", makeSearch);
 
 function chooseAppropriateFriends() {
   if (isFiltered && document.getElementById("male").checked) {
-    arrForFilter = justMale;
+    friendsForFilter = justMale;
   }
   if (isFiltered && document.getElementById("female").checked) {
-    arrForFilter = justFemale;
+    friendsForFilter = justFemale;
   }
   if (!isFiltered) {
-    arrForFilter = friendsData;
+    friendsForFilter = allFriends;
   }
 }
 
 function makeSearch() {
   const searchValue = document.querySelector(".search").value.toLowerCase();
   chooseAppropriateFriends();
-  const filteredStr = arrForFilter.filter((elem) => {
+  const friendsAccordingToSearch = friendsForFilter.filter((elem) => {
     return (
       elem.name.last.toLowerCase().startsWith(searchValue, 0) ||
       elem.name.first.toLowerCase().startsWith(searchValue)
     );
   });
   makeContainerEmpty();
-  addFriends(filteredStr);
+  addFriends(friendsAccordingToSearch);
 }
 
 window.addEventListener("load", fetchFriends);
