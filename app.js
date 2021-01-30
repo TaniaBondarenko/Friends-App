@@ -132,10 +132,12 @@ function doFilter({ target }) {
 document.querySelector(".search").addEventListener("keyup", makeSearch);
 
 function chooseAppropriateFriends() {
-  if (isFiltered && document.getElementById("male").checked) {
+  const maleRadioButton = document.getElementById("male");
+  const femaleRadioButton = document.getElementById("female");
+  if (isFiltered && maleRadioButton.checked) {
     friendsForFilter = justMale;
   }
-  if (isFiltered && document.getElementById("female").checked) {
+  if (isFiltered && femaleRadioButton.checked) {
     friendsForFilter = justFemale;
   }
   if (!isFiltered) {
