@@ -7,8 +7,8 @@ let justMale;
 let justFemale;
 
 function fetchFriends() {
-  const api_url = `https://randomuser.me/api/?results=${NUM_OF_FRIENDS}`;
-  fetch(api_url)
+  const apiUrl = `https://randomuser.me/api/?results=${NUM_OF_FRIENDS}`;
+  fetch(apiUrl)
     .then(handleErrors)
     .then((response) => response.json())
     .then((data) => (allFriends = data.results))
@@ -24,10 +24,9 @@ function handleErrors(response) {
 }
 
 function showErrorMessage() {
-  const wholePage = document.querySelector("body");
-  wholePage.setAttribute("class", "refresh");
-  wholePage.innerHTML = `<div>Ops...Something went wrong.</div>
-        <div>Refresh the page to start finding friends</div>`;
+  const wholePage = document.body;
+  wholePage.innerHTML = `<div class="refresh"><div>Ops...Something went wrong.</div>
+        <div>Refresh the page to start finding friends</div></div>`;
 }
 
 function addFriends(friendsToBeAdded) {
@@ -35,18 +34,12 @@ function addFriends(friendsToBeAdded) {
   friendsToBeAdded.forEach((friend) => {
     let friendCard = document.createElement("div");
     friendCard.setAttribute("class", "friend_card");
-    friendCard.innerHTML = `<div class="card_wrapper ${
-      friend.gender
-    }"><div class="name ">${`${friend.name.first} ${friend.name.last}`}</div>
-                                <div class="photo"><img src="${
-                                  friend.picture.large
-                                }"></div>
+    friendCard.innerHTML = `<div class="card_wrapper ${friend.gender}"><div class="name ">${`${friend.name.first} ${friend.name.last}`}</div>
+                                <div class="photo"><img src="${friend.picture.large}"></div>
                                 <div class="info_block">
                                 <div class="age">Age ${friend.dob.age}</div>
                                 <div class="place">${friend.location.city}</div>
-                                <div class="email"><a href="mailto:${
-                                  friend.mail
-                                }" class="email_link">${friend.email}</a></div>
+                                <div class="email"><a href="mailto:${friend.mail}" class="email_link">${friend.email}</a></div>
                                 <div class="gender">${friend.gender}</div>
                                 </div></div>
                                 `;
@@ -55,9 +48,7 @@ function addFriends(friendsToBeAdded) {
   FRIENDS.appendChild(fragment);
 }
 
-document
-  .querySelector(".sidebar")
-  .addEventListener("click", showSorteredFriends);
+document.querySelector(".sidebar").addEventListener("click", showSorteredFriends);
 
 function makeContainerEmpty() {
   let innerText = " ";
@@ -75,7 +66,7 @@ function showSorteredFriends({ target }) {
   const nameDown = "descendent_by_name";
   const ageUp = "ascendent_by_age";
   const ageDown = "descendent_by_age";
-  switch (target.className || target.id) {
+  switch (target.className) {
     case nameUp:
       sortByNameUp();
       redrawfriends();
@@ -95,20 +86,25 @@ function showSorteredFriends({ target }) {
   }
 }
 
+let isSorted = false;
 function sortByNameUp() {
   friendsForFilter.sort((a, b) => a.name.first.localeCompare(b.name.first));
+  isSorted = true;
 }
 
 function sortByNameDown() {
   friendsForFilter.sort((a, b) => b.name.first.localeCompare(a.name.first));
+  isSorted = true;
 }
 
 function sortByAgeUp() {
   friendsForFilter.sort((a, b) => a.dob.age - b.dob.age);
+  isSorted = true;
 }
 
 function sortByAgeDown() {
   friendsForFilter.sort((a, b) => b.dob.age - a.dob.age);
+  isSorted = true;
 }
 
 document.querySelector(".filter").addEventListener("click", doFilter);
@@ -149,10 +145,7 @@ function makeSearch() {
   const searchValue = document.querySelector(".search").value.toLowerCase();
   chooseAppropriateFriends();
   const friendsAccordingToSearch = friendsForFilter.filter((elem) => {
-    return (
-      elem.name.last.toLowerCase().startsWith(searchValue, 0) ||
-      elem.name.first.toLowerCase().startsWith(searchValue)
-    );
+    return elem.name.last.toLowerCase().startsWith(searchValue, 0) || elem.name.first.toLowerCase().startsWith(searchValue);
   });
   makeContainerEmpty();
   addFriends(friendsAccordingToSearch);
