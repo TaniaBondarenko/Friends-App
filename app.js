@@ -62,24 +62,20 @@ function redrawfriends() {
 
 function showSorteredFriends({ target }) {
   chooseAppropriateFriends();
-  const nameUp = "ascendent_by_name";
-  const nameDown = "descendent_by_name";
-  const ageUp = "ascendent_by_age";
-  const ageDown = "descendent_by_age";
-  switch (target.className) {
-    case nameUp:
+  switch (target.value) {
+    case "nameUp":
       sortByNameUp();
       redrawfriends();
       break;
-    case nameDown:
+    case "nameDown":
       sortByNameDown();
       redrawfriends();
       break;
-    case ageUp:
+    case "ageUp":
       sortByAgeUp();
       redrawfriends();
       break;
-    case ageDown:
+    case "ageDown":
       sortByAgeDown();
       redrawfriends();
       break;
