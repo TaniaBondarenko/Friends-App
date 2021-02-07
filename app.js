@@ -48,7 +48,7 @@ function addFriends(friendsToBeAdded) {
   FRIENDS.appendChild(fragment);
 }
 
-document.querySelector(".sidebar").addEventListener("click", showSorteredFriends);
+document.querySelector(".sortPanel").addEventListener("click", showSorteredFriends);
 
 function makeContainerEmpty() {
   let innerText = " ";

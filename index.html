@@ -12,20 +12,27 @@
   <body>
     <div class="main">
       <div class="sidebar">
-        <div class="sort">
-          <div class="byName">
-            <div class="text">SORT BY NAME</div>
-            <button class="ascendent_by_name" type="button" value="nameUp"></button>
-            <button class="descendent_by_name" type="button" value="nameDown"></button>
-          </div>
-        </div>
-        <div class="sort">
-          <div class="byAge">
-            <div class="text">SORT BY AGE</div>
-            <button class="ascendent_by_age" type="button" value="ageUp"></button>
-            <button class="descendent_by_age" type="button" value="ageDown"></button>
-          </div>
-        </div>
+        <form class="sortPanel">
+          <div class="text">SORT BY NAME</div>
+          <label for="sortNameUp">
+            <input type="radio" class="ascendent_by_name" name="sort" value="nameUp" id="sortNameUp" />
+            <img src="images/a-z.png" alt="image a-z" />
+          </label>
+          <label for="sortNameDown">
+            <input type="radio" class="descendent_by_name" name="sort" value="nameDown" id="sortNameDown" />
+            <img src="images/z-a.png" alt="image z-a" />
+          </label>
+
+          <div class="text">SORT BY AGE</div>
+          <label for="sortAgeUp">
+            <input type="radio" class="ascendent_by_age" name="sort" value="ageUp" id="sortAgeUp" />
+            <img src="images/1-9.png" />
+          </label>
+          <label for="sortAgeDown">
+            <input type="radio" class="descendent_by_age" name="sort" value="ageDown" id="sortAgeDown" />
+            <img src="images/9-1.png" />
+          </label>
+        </form>
 
         <form class="filter">
           <input type="radio" name="filter" id="male" value="male" /> Male<br />
