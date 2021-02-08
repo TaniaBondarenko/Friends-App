@@ -21,6 +21,12 @@ body {
   max-width: 200px;
 }
 
+.errorMessage {
+  font-size: 40px;
+  text-align: center;
+  color: cornsilk;
+}
+
 .main {
   display: flex;
   position: absolute;

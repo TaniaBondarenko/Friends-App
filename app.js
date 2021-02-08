@@ -1,4 +1,4 @@
-const NUM_OF_FRIENDS = 8;
+const NUM_OF_FRIENDS = 20;
 const FRIENDS = document.querySelector(".friends");
 const MALE_RADIO_BUTTON = document.getElementById("male");
 const FEMALE_RADIO_BUTTON = document.getElementById("female");
@@ -14,7 +14,7 @@ function fetchFriends() {
     .then((response) => response.json())
     .then((data) => (allFriends = data.results))
     .then(() => addFriends(allFriends))
-    .catch((error) => showErrorMessage());
+    .catch(showErrorMessage);
 }
 
 function handleErrors(response) {
@@ -26,8 +26,7 @@ function handleErrors(response) {
 
 function showErrorMessage() {
   const wholePage = document.body;
-  wholePage.innerHTML = `<div class="refresh"><div>Ops...Something went wrong.</div>
-        <div>Refresh the page to start finding friends</div></div>`;
+  wholePage.innerHTML = `<div class="errorMessage">Ops...Something went wrong.</div>`;
 }
 
 function addFriends(friendsToBeAdded) {
