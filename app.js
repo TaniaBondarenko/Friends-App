@@ -1,4 +1,4 @@
-const NUM_OF_FRIENDS = 20;
+const NUM_OF_FRIENDS = 8;
 const FRIENDS = document.querySelector(".friends");
 let allFriends;
 let friendsForFilter;
@@ -55,52 +55,77 @@ function makeContainerEmpty() {
   FRIENDS.innerHTML = innerText.replace(innerText, " ");
 }
 
-function redrawfriends() {
-  makeContainerEmpty();
-  addFriends(friendsForFilter);
-}
-
 function showSorteredFriends({ target }) {
-  chooseAppropriateFriends();
   switch (target.value) {
     case "nameUp":
       sortByNameUp();
-      redrawfriends();
+
       break;
     case "nameDown":
       sortByNameDown();
-      redrawfriends();
+
       break;
     case "ageUp":
       sortByAgeUp();
-      redrawfriends();
+
       break;
     case "ageDown":
       sortByAgeDown();
-      redrawfriends();
+
       break;
   }
 }
 
-let isSorted = false;
+const maleRadioButton = document.getElementById("male");
+const femaleRadioButton = document.getElementById("female");
+const allRadioButton = document.getElementById("all");
+let sortedFriends;
 function sortByNameUp() {
-  friendsForFilter.sort((a, b) => a.name.first.localeCompare(b.name.first));
-  isSorted = true;
+  makeContainerEmpty();
+  if (maleRadioButton.checked) {
+    sortedFriends = allFriends.sort((a, b) => a.name.first.localeCompare(b.name.first)).filter((el) => el.gender === "female");
+  } else if (femaleRadioButton.checked) {
+    sortedFriends = allFriends.sort((a, b) => a.name.first.localeCompare(b.name.first)).filter((el) => el.gender === "female");
+  } else if (allRadioButton.checked) {
+    sortedFriends = allFriends.sort((a, b) => a.name.first.localeCompare(b.name.first));
+  }
+  addFriends(sortedFriends);
 }
 
 function sortByNameDown() {
-  friendsForFilter.sort((a, b) => b.name.first.localeCompare(a.name.first));
-  isSorted = true;
+  makeContainerEmpty();
+  if (maleRadioButton.checked) {
+    sortedFriends = allFriends.sort((a, b) => b.name.first.localeCompare(a.name.first)).filter((el) => el.gender === "male");
+  } else if (femaleRadioButton.checked) {
+    sortedFriends = allFriends.sort((a, b) => b.name.first.localeCompare(a.name.first)).filter((el) => el.gender === "female");
+  } else if (allRadioButton.checked) {
+    sortedFriends = allFriends.sort((a, b) => b.name.first.localeCompare(a.name.first));
+  }
+  addFriends(sortedFriends);
 }
 
 function sortByAgeUp() {
-  friendsForFilter.sort((a, b) => a.dob.age - b.dob.age);
-  isSorted = true;
+  makeContainerEmpty();
+  if (maleRadioButton.checked) {
+    sortedFriends = allFriends.sort((a, b) => a.dob.age - b.dob.age).filter((el) => el.gender === "male");
+  } else if (femaleRadioButton.checked) {
+    sortedFriends = allFriends.sort((a, b) => a.dob.age - b.dob.age).filter((el) => el.gender === "female");
+  } else if (allRadioButton.checked) {
+    sortedFriends = allFriends.sort((a, b) => a.dob.age - b.dob.age);
+  }
+  addFriends(sortedFriends);
 }
 
 function sortByAgeDown() {
-  friendsForFilter.sort((a, b) => b.dob.age - a.dob.age);
-  isSorted = true;
+  makeContainerEmpty();
+  if (maleRadioButton.checked) {
+    sortedFriends = allFriends.sort((a, b) => b.dob.age - a.dob.age).filter((el) => el.gender === "male");
+  } else if (femaleRadioButton.checked) {
+    sortedFriends = allFriends.sort((a, b) => b.dob.age - a.dob.age).filter((el) => el.gender === "female");
+  } else if (allRadioButton.checked) {
+    sortedFriends = allFriends.sort((a, b) => b.dob.age - a.dob.age);
+  }
+  addFriends(sortedFriends);
 }
 
 document.querySelector(".filter").addEventListener("click", doFilter);
@@ -108,43 +133,36 @@ document.querySelector(".filter").addEventListener("click", doFilter);
 function doFilter({ target }) {
   makeContainerEmpty();
   if (target.value === "male") {
-    justMale = allFriends.filter((el) => el.gender === "male");
-    addFriends(justMale);
+    sortedFriends = allFriends.filter((el) => el.gender === "male");
     isFiltered = true;
+    addFriends(sortedFriends);
   } else if (target.value === "female") {
-    justFemale = allFriends.filter((el) => el.gender === "female");
-    addFriends(justFemale);
+    sortedFriends = allFriends.filter((el) => el.gender === "female");
     isFiltered = true;
+    addFriends(sortedFriends);
   } else if (target.value === "all") {
     addFriends(allFriends);
     isFiltered = false;
   }
 }
 
-document.querySelector(".search").addEventListener("keyup", makeSearch);
+document.querySelector(".search").addEventListener("keyup", makeValidSearch);
 
-function chooseAppropriateFriends() {
-  const maleRadioButton = document.getElementById("male");
-  const femaleRadioButton = document.getElementById("female");
-  if (isFiltered && maleRadioButton.checked) {
-    friendsForFilter = justMale;
-  }
-  if (isFiltered && femaleRadioButton.checked) {
-    friendsForFilter = justFemale;
-  }
-  if (!isFiltered) {
-    friendsForFilter = allFriends;
-  }
-}
-
-function makeSearch() {
+function makeSearch(friendsForSearch) {
   const searchValue = document.querySelector(".search").value.toLowerCase();
-  chooseAppropriateFriends();
-  const friendsAccordingToSearch = friendsForFilter.filter((elem) => {
+  let friendsAccordingToSearch = friendsForSearch.filter((elem) => {
     return elem.name.last.toLowerCase().startsWith(searchValue, 0) || elem.name.first.toLowerCase().startsWith(searchValue);
   });
   makeContainerEmpty();
   addFriends(friendsAccordingToSearch);
+}
+
+function makeValidSearch() {
+  if (isFiltered) {
+    makeSearch(sortedFriends);
+  } else {
+    makeSearch(allFriends);
+  }
 }
 
 window.addEventListener("load", fetchFriends);
