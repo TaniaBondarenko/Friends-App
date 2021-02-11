@@ -25,8 +25,7 @@ function handleErrors(response) {
 }
 
 function showErrorMessage() {
-  const wholePage = document.body;
-  wholePage.innerHTML = `<div class="errorMessage">Ops...Something went wrong.</div>`;
+  document.body.innerHTML = `<div class="errorMessage">Ops...Something went wrong.</div>`;
 }
 
 function addFriends(friendsToBeAdded) {
@@ -34,28 +33,35 @@ function addFriends(friendsToBeAdded) {
   friendsToBeAdded.forEach((friend) => {
     let friendCard = document.createElement("div");
     friendCard.setAttribute("class", "friend_card");
-    friendCard.innerHTML = `<div class="card_wrapper ${friend.gender}"><div class="name ">${`${friend.name.first} ${friend.name.last}`}</div>
-                                <div class="photo"><img src="${friend.picture.large}"></div>
-                                <div class="info_block">
-                                <div class="age">Age ${friend.dob.age}</div>
-                                <div class="place">${friend.location.city}</div>
-                                <div class="email"><a href="mailto:${friend.mail}" class="email_link">${friend.email}</a></div>
-                                <div class="gender">${friend.gender}</div>
-                                </div></div>
-                                `;
+    friendCard.innerHTML = `
+    <div class="card_wrapper ${friend.gender}">
+        <p class="name ">${`${friend.name.first} ${friend.name.last}`}</p>
+        <div class="photo">
+           <img src="${friend.picture.large}">
+         </div>
+        <div class="info_block">
+            <p class="age">Age ${friend.dob.age}</p>
+            <p class="place">${friend.location.city}</p>
+            <div class="email">
+                <a href="mailto:${friend.mail}" class="email_link">${friend.email}</a>
+            </div>
+            <p class="gender">${friend.gender}</p>
+        </div>
+    </div>
+`;
     fragment.appendChild(friendCard);
   });
   FRIENDS.appendChild(fragment);
 }
 
-document.querySelector(".sortPanel").addEventListener("click", showSorteredFriends);
+document.querySelector(".sortPanel").addEventListener("click", showSortedFriends);
 
 function makeContainerEmpty() {
   let innerText = " ";
   FRIENDS.innerHTML = innerText.replace(innerText, " ");
 }
 
-function showSorteredFriends({ target }) {
+function showSortedFriends({ target }) {
   switch (target.value) {
     case "nameUp":
       showSortByNameUp();
@@ -155,9 +161,9 @@ function filterBySex(sex) {
   return allFriends.filter((el) => el.gender === sex);
 }
 
-document.querySelector(".search").addEventListener("keyup", makeValidSearch);
+document.querySelector(".search").addEventListener("keyup", doValidSearch);
 
-function makeSearch(friendsForSearch) {
+function doSearch(friendsForSearch) {
   const searchValue = document.querySelector(".search").value.toLowerCase();
   let friendsAccordingToSearch = friendsForSearch.filter((elem) => {
     return elem.name.last.toLowerCase().startsWith(searchValue, 0) || elem.name.first.toLowerCase().startsWith(searchValue);
@@ -166,11 +172,11 @@ function makeSearch(friendsForSearch) {
   addFriends(friendsAccordingToSearch);
 }
 
-function makeValidSearch() {
+function doValidSearch() {
   if (isFiltered) {
-    makeSearch(sortedFriends);
+    doSearch(sortedFriends);
   } else {
-    makeSearch(allFriends);
+    doSearch(allFriends);
   }
 }
 
