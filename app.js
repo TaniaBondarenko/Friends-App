@@ -2,7 +2,7 @@ const NUM_OF_FRIENDS = 20;
 const FRIENDS = document.querySelector(".friends");
 let sortedFriends;
 let allFriends;
-let isFiltered = false;
+let isFilteredByGender = false;
 
 function fetchFriends() {
   const apiUrl = `https://randomuser.me/api/?results=${NUM_OF_FRIENDS}`;
@@ -10,7 +10,7 @@ function fetchFriends() {
     .then(handleErrors)
     .then((response) => response.json())
     .then((data) => (allFriends = data.results))
-    .then(() => addFriends(allFriends))
+    .then(() => renderFriends(allFriends))
     .catch(showErrorMessage);
 }
 
@@ -25,7 +25,7 @@ function showErrorMessage() {
   document.body.innerHTML = `<div class="errorMessage">Ops...Something went wrong.</div>`;
 }
 
-function addFriends(friendsToBeAdded) {
+function renderFriends(friendsToBeAdded) {
   FRIENDS.innerHTML = " ";
   let fragment = document.createDocumentFragment();
   friendsToBeAdded.forEach((friend) => {
@@ -52,9 +52,9 @@ function addFriends(friendsToBeAdded) {
   FRIENDS.appendChild(fragment);
 }
 
-document.querySelector(".sortPanel").addEventListener("click", showSortedFriends);
+document.querySelector(".sortPanel").addEventListener("click", handleUserInput);
 
-function showSortedFriends({ target }) {
+function handleUserInput({ target }) {
   switch (target.value) {
     case "nameUp":
       sortedFriends = allFriends.sort((a, b) => sortByName(a, b));
@@ -69,11 +69,11 @@ function showSortedFriends({ target }) {
       sortedFriends = allFriends.sort((a, b) => sortByAge(b, a));
       break;
   }
-  if (isFiltered) {
+  if (isFilteredByGender) {
     let checkedValue = document.querySelector("input[name=filter]:checked").value;
-    addFriends(sortedFriends.filter((el) => el.gender === checkedValue));
+    renderFriends(sortedFriends.filter((el) => el.gender === checkedValue));
   } else {
-    addFriends(allFriends);
+    renderFriends(allFriends);
   }
 }
 
@@ -85,16 +85,16 @@ function sortByAge(a, b) {
   return a.dob.age - b.dob.age;
 }
 
-document.querySelector(".filter").addEventListener("click", doFilter);
+document.querySelector(".filter").addEventListener("click", filterByGender);
 
-function doFilter({ target }) {
+function filterByGender({ target }) {
   if (target.value === "all") {
-    addFriends(allFriends);
-    isFiltered = false;
+    renderFriends(allFriends);
+    isFilteredByGender = false;
   } else {
     sortedFriends = allFriends.filter((el) => el.gender === target.value);
-    addFriends(sortedFriends);
-    isFiltered = true;
+    renderFriends(sortedFriends);
+    isFilteredByGender = true;
   }
 }
 
@@ -105,11 +105,11 @@ function doSearch(friendsForSearch) {
   let friendsAccordingToSearch = friendsForSearch.filter((elem) => {
     return elem.name.last.toLowerCase().startsWith(searchValue, 0) || elem.name.first.toLowerCase().startsWith(searchValue);
   });
-  addFriends(friendsAccordingToSearch);
+  renderFriends(friendsAccordingToSearch);
 }
 
 function doValidSearch() {
-  if (isFiltered) {
+  if (isFilteredByGender) {
     doSearch(sortedFriends);
   } else {
     doSearch(allFriends);
