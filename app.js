@@ -1,5 +1,6 @@
 const NUM_OF_FRIENDS = 20;
 const FRIENDS = document.querySelector(".friends");
+let sex;
 let sortedFriends;
 let allFriends;
 let isFilteredByGender = false;
@@ -70,8 +71,7 @@ function handleUserInput({ target }) {
       break;
   }
   if (isFilteredByGender) {
-    let checkedValue = document.querySelector("input[name=filter]:checked").value;
-    renderFriends(sortedFriends.filter((el) => el.gender === checkedValue));
+    doFilter(sex);
   } else {
     renderFriends(allFriends);
   }
@@ -92,10 +92,15 @@ function filterByGender({ target }) {
     renderFriends(allFriends);
     isFilteredByGender = false;
   } else {
-    sortedFriends = allFriends.filter((el) => el.gender === target.value);
-    renderFriends(sortedFriends);
+    doFilter(target.value);
     isFilteredByGender = true;
   }
+}
+
+function doFilter(sex) {
+  sex = document.querySelector("input[name=filter]:checked").value;
+  sortedFriends = allFriends.filter((el) => el.gender === sex);
+  renderFriends(sortedFriends);
 }
 
 document.querySelector(".search").addEventListener("keyup", doValidSearch);
