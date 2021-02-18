@@ -3,7 +3,6 @@ const FRIENDS = document.querySelector(".friends");
 let sex;
 let sortedFriends;
 let allFriends;
-let isFilteredByGender = false;
 
 function fetchFriends() {
   const apiUrl = `https://randomuser.me/api/?results=${NUM_OF_FRIENDS}`;
@@ -70,13 +69,11 @@ function handleUserInput({ target }) {
       allFriends.sort((a, b) => sortByAge(b, a));
     },
   };
-  if (sorters[target.value] && isFilteredByGender) {
+  if (sorters[target.value]) {
     sortedFriends = sorters[target.value]();
-    doFilter(sex);
-  } else {
-    sortedFriends = allFriends;
+    defineSortedFriends(sex);
+    renderFriends(sortedFriends);
   }
-  renderFriends(sortedFriends);
 }
 
 function sortByName(a, b) {
@@ -90,35 +87,28 @@ function sortByAge(a, b) {
 document.querySelector(".filter").addEventListener("click", filterByGender);
 
 function filterByGender({ target }) {
-  if (target.value === "all") {
-    sortedFriends = allFriends;
-  } else {
-    doFilter(target.value);
-  }
+  defineSortedFriends(target.value);
   renderFriends(sortedFriends);
 }
 
-function doFilter(sex) {
+function defineSortedFriends(sex) {
   sex = document.querySelector("input[name=filter]:checked").value;
-  sortedFriends = allFriends.filter((el) => el.gender === sex);
-  isFilteredByGender = true;
+  if (sex !== "all") {
+    sortedFriends = allFriends.filter((el) => el.gender === sex);
+  } else {
+    sortedFriends = allFriends;
+  }
 }
 
 document.querySelector(".search").addEventListener("keyup", doSearch);
 
-function doSearch(friendsForSearch) {
+function doSearch() {
   const searchValue = document.querySelector(".search").value.toLowerCase();
-  let friendsAccordingToSearch;
-  if (isFilteredByGender) {
-    friendsForSearch = sortedFriends;
-  } else {
-    friendsForSearch = allFriends;
-  }
-  friendsAccordingToSearch = friendsForSearch.filter((elem) => {
+  defineSortedFriends(sex);
+  friendsAccordingToSearch = sortedFriends.filter((elem) => {
     return elem.name.last.toLowerCase().startsWith(searchValue, 0) || elem.name.first.toLowerCase().startsWith(searchValue);
   });
   renderFriends(friendsAccordingToSearch);
-  return sortedFriends;
 }
 
 window.addEventListener("load", fetchFriends);
