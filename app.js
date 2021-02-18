@@ -56,21 +56,22 @@ function renderFriends(friendsToBeAdded) {
 document.querySelector(".sortPanel").addEventListener("click", handleUserInput);
 
 function handleUserInput({ target }) {
-  switch (target.value) {
-    case "nameUp":
-      sortedFriends = allFriends.sort((a, b) => sortByName(a, b));
-      break;
-    case "nameDown":
-      sortedFriends = allFriends.sort((a, b) => sortByName(b, a));
-      break;
-    case "ageUp":
-      sortedFriends = allFriends.sort((a, b) => sortByAge(a, b));
-      break;
-    case "ageDown":
-      sortedFriends = allFriends.sort((a, b) => sortByAge(b, a));
-      break;
-  }
-  if (isFilteredByGender) {
+  const sorters = {
+    nameUp: () => {
+      allFriends.sort(sortByName);
+    },
+    nameDown: () => {
+      allFriends.sort((a, b) => sortByName(b, a));
+    },
+    ageUp: () => {
+      allFriends.sort(sortByAge);
+    },
+    ageDown: () => {
+      allFriends.sort((a, b) => sortByAge(b, a));
+    },
+  };
+  if (sorters[target.value] && isFilteredByGender) {
+    sortedFriends = sorters[target.value]();
     doFilter(sex);
   } else {
     sortedFriends = allFriends;
