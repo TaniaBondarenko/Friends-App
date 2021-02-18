@@ -73,8 +73,9 @@ function handleUserInput({ target }) {
   if (isFilteredByGender) {
     doFilter(sex);
   } else {
-    renderFriends(allFriends);
+    sortedFriends = allFriends;
   }
+  renderFriends(sortedFriends);
 }
 
 function sortByName(a, b) {
@@ -89,36 +90,34 @@ document.querySelector(".filter").addEventListener("click", filterByGender);
 
 function filterByGender({ target }) {
   if (target.value === "all") {
-    renderFriends(allFriends);
-    isFilteredByGender = false;
+    sortedFriends = allFriends;
   } else {
     doFilter(target.value);
-    isFilteredByGender = true;
   }
+  renderFriends(sortedFriends);
 }
 
 function doFilter(sex) {
   sex = document.querySelector("input[name=filter]:checked").value;
   sortedFriends = allFriends.filter((el) => el.gender === sex);
-  renderFriends(sortedFriends);
+  isFilteredByGender = true;
 }
 
-document.querySelector(".search").addEventListener("keyup", doValidSearch);
+document.querySelector(".search").addEventListener("keyup", doSearch);
 
 function doSearch(friendsForSearch) {
   const searchValue = document.querySelector(".search").value.toLowerCase();
-  let friendsAccordingToSearch = friendsForSearch.filter((elem) => {
+  let friendsAccordingToSearch;
+  if (isFilteredByGender) {
+    friendsForSearch = sortedFriends;
+  } else {
+    friendsForSearch = allFriends;
+  }
+  friendsAccordingToSearch = friendsForSearch.filter((elem) => {
     return elem.name.last.toLowerCase().startsWith(searchValue, 0) || elem.name.first.toLowerCase().startsWith(searchValue);
   });
   renderFriends(friendsAccordingToSearch);
-}
-
-function doValidSearch() {
-  if (isFilteredByGender) {
-    doSearch(sortedFriends);
-  } else {
-    doSearch(allFriends);
-  }
+  return sortedFriends;
 }
 
 window.addEventListener("load", fetchFriends);
