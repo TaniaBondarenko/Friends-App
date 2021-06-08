@@ -4,5 +4,5 @@ I've learned how to get and work with data from the api, here I'm using <a href=
 I've used a lot of ES6 features, such as arrow functions, promises, destructuring, template strings.</br>
 With this app you can filter friends by gender, sort and search by name.</br>
 It is adaptive for mobile devices.</br>
-See how it works here:</br>
-https://taniabondarenko.github.io/Friends-App/
+See how it works <a href='https://taniabondarenko.github.io/Friends-App/'>&#128073; here.</a>
+
